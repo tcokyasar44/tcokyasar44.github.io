@@ -7,10 +7,12 @@ body {
     padding: 20px;
     background-color: #fcfcfc;
 }
+
 header {
     text-align: center;
     padding: 40px 0 20px 0;
 }
+
 nav {
     display: flex;
     justify-content: center;
@@ -20,35 +22,51 @@ nav {
     border-bottom: 2px solid #0693e3;
     padding-bottom: 20px;
 }
+
 nav a {
     text-decoration: none;
     color: #333;
     font-weight: bold;
     font-size: 1.1em;
 }
+
 nav a:hover {
     color: #0693e3;
 }
-h1, h2, h3 {
+
+nav a.active {
+    color: #0693e3;
+    border-bottom: 3px solid #0693e3;
+    padding-bottom: 3px;
+    /* Brings the underline closer to the text */
+}
+
+h1,
+h2,
+h3 {
     color: #0693e3;
 }
+
 h2 {
     border-bottom: 1px solid #ccc;
     padding-bottom: 5px;
     margin-top: 40px;
 }
+
 .profile-section {
     display: flex;
     align-items: center;
     gap: 30px;
     margin-bottom: 40px;
 }
+
 .profile-img {
     border-radius: 50%;
     width: 200px;
     height: 200px;
     border: 3px solid #0693e3;
 }
+
 footer {
     margin-top: 60px;
     padding: 30px;
@@ -56,13 +74,17 @@ footer {
     color: #fff;
     text-align: center;
 }
+
 footer a {
     color: #0693e3;
     text-decoration: none;
     margin: 0 10px;
 }
+
 /* BibBase Overrides */
-#bibbase_header { display: none !important; }
+#bibbase_header {
+    display: none !important;
+}
 
 /* --- Custom Layout Page Styles --- */
 .custom-layout h2 {
@@ -80,7 +102,7 @@ footer a {
     margin: 0;
 }
 
-.styled-list > li {
+.styled-list>li {
     margin-bottom: 20px;
     padding-left: 15px;
     border-left: 3px solid #0056b3;
@@ -89,23 +111,23 @@ footer a {
     border-radius: 0 5px 5px 0;
 }
 
-.styled-list > li strong {
+.styled-list>li strong {
     color: #000;
     font-size: 1.05em;
 }
 
-.styled-list > li em {
+.styled-list>li em {
     color: #555;
 }
 
 /* Fix for inner standard lists (like job responsibilities) */
-.styled-list > li ul {
+.styled-list>li ul {
     margin-top: 10px;
     padding-left: 20px;
     list-style-type: disc;
 }
 
-.styled-list > li ul li {
+.styled-list>li ul li {
     margin-bottom: 5px;
     padding: 0;
     border: none;
@@ -121,4 +143,16 @@ footer a {
 
 .custom-layout a:hover {
     text-decoration: underline;
+}
+
+/* --- Mobile Optimization --- */
+@media (max-width: 768px) {
+    .profile-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-img {
+        margin: 0 auto 20px auto;
+    }
 }
