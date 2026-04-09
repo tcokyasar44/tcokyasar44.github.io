@@ -156,3 +156,66 @@ footer a {
         margin: 0 auto 20px auto;
     }
 }
+
+/* --- Optimized Education Section with Right-Aligned Logos --- */
+
+.education-container {
+    max-width: 900px; /* Slightly wider to accommodate logos on the right */
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Flexbox container for the education block */
+.edu-item {
+    display: flex;
+    justify-content: space-between; /* Pushes text left, logo right */
+    align-items: flex-start; /* Aligns items to the top */
+    gap: 30px; /* Space between text and logo */
+    margin-bottom: 40px; /* Space between institutions */
+}
+
+/* Styling for the education text details */
+.edu-details {
+    flex: 1; /* Text takes up available space on the left */
+}
+
+.edu-details ul {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+/* --- FIXED LOGO SIZING --- */
+.edu-logo {
+    width: 120px; /* THIS FIXES THE 'GIANT IMAGES' */
+    height: auto; /* Maintains aspect ratio */
+    flex-shrink: 0; /* Prevents logo from being squished */
+    margin-top: 5px; /* Minor alignment adjustment */
+}
+
+/* Horizontal line between institutions */
+.edu-divider {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 20px 0 40px 0;
+}
+
+/* --- Mobile Responsiveness --- */
+/* For screens smaller than 768px (tablets/phones), stack the layout */
+@media (max-width: 768px) {
+    .edu-item {
+        flex-direction: column-reverse; /* Stacks text, then logo below on mobile */
+        align-items: center; /* Centers items */
+        text-align: center; /* Centers text */
+    }
+
+    .edu-logo {
+        width: 100px; /* Slightly smaller logo on mobile */
+        margin-bottom: 20px; /* Space above logo when stacked */
+    }
+
+    /* Keep the actual list left-aligned for readability */
+    .edu-details ul {
+        text-align: left;
+        display: inline-block; /* Helps center the list container */
+    }
+}
