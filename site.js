@@ -84,4 +84,17 @@
       if (done || tries > 40) clearInterval(tick);
     }, 500);
   }
+
+  // BibBase groups entries by year; manuscripts with no year get the heading "undefined".
+  // Relabel that heading "One day" once BibBase has rendered (the group's toggle still works).
+  if (document.querySelector('script[src*="bibbase.org"], #bibbase')) {
+    var relabel = function () {
+      document.querySelectorAll('.bibbase_group > span').forEach(function (s) {
+        if (s.textContent.trim() === 'undefined') s.textContent = 'One day';
+      });
+    };
+    var mo = new MutationObserver(relabel);
+    mo.observe(document.body, { childList: true, subtree: true });
+    relabel(); setTimeout(function () { mo.disconnect(); relabel(); }, 30000);
+  }
 })();
