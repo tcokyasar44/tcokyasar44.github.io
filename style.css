@@ -626,3 +626,11 @@ a.card:hover .ico svg, .theme:hover .ico svg { animation: nudge .9s ease-in-out 
 .gapmeter.done .gm-val { color: #8ee6a4; }
 .wordmark .wm-bridge { transform-box: fill-box; transform-origin: center; animation: bridgeIn .5s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(1.05s + var(--i) * .12s); }
 @keyframes bridgeIn { from { transform: scaleX(0); } to { transform: none; } }
+
+/* Publications page: lists built locally by build_publications.py (replaces BibBase, 2026-10-28) */
+.bib-section .bibbase_group { display: block; }
+.bib-section .bibbase_paper_links { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 6px; }
+.bib-section details.bibtex summary { cursor: pointer; font-size: .8rem; color: var(--muted); list-style: none; display: inline-block; padding: 1px 6px; border: 1px solid var(--line); border-radius: 4px; }
+.bib-section details.bibtex summary::-webkit-details-marker { display: none; }
+.bib-section details.bibtex[open] { flex-basis: 100%; }
+.bib-section details.bibtex pre { white-space: pre-wrap; margin-top: 6px; }
