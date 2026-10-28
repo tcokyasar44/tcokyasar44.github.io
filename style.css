@@ -634,3 +634,13 @@ a.card:hover .ico svg, .theme:hover .ico svg { animation: nudge .9s ease-in-out 
 .bib-section details.bibtex summary::-webkit-details-marker { display: none; }
 .bib-section details.bibtex[open] { flex-basis: 100%; }
 .bib-section details.bibtex pre { white-space: pre-wrap; margin-top: 6px; }
+
+/* Publications page: collapsible years, search, expand/collapse (2026-10-28) */
+.pub-tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0 6px; }
+.pub-tools input[type="search"] { flex: 1 1 260px; min-width: 0; padding: 9px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--text); font: inherit; }
+.pub-tools input[type="search"]:focus { outline: 2px solid var(--maroon); outline-offset: 1px; }
+.bib-section details.pub-year > summary { list-style: none; display: flex; align-items: baseline; gap: 6px; }
+.bib-section details.pub-year > summary::-webkit-details-marker { display: none; }
+.bib-section details.pub-year > summary::before { content: ""; display: inline-block; width: 7px; height: 7px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(-45deg); transition: transform .15s; margin-right: 4px; align-self: center; }
+.bib-section details.pub-year[open] > summary::before { transform: rotate(45deg); }
+.bib-section details.pub-year > summary:focus-visible { outline: 2px solid var(--maroon); outline-offset: 2px; }

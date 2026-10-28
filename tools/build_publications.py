@@ -187,11 +187,15 @@ def section_html(entries, section):
             groups[y] = []
             order.append(y)
         groups[y].append(e)
+    # Collapsible year groups (like BibBase). Presentations: only the 3 most recent years start open.
     out = ['<div class="bibbase-local">']
-    for y in order:
-        out.append(f'<div class="bibbase_group"><span>{html.escape(y)}</span> '
-                   f'<span class="bibbase_group_count">({len(groups[y])})</span></div>')
+    for idx, y in enumerate(order):
+        is_open = section != "pres" or idx < 3
+        out.append(f'<details class="pub-year"{" open" if is_open else ""}>'
+                   f'<summary class="bibbase_group"><span>{html.escape(y)}</span> '
+                   f'<span class="bibbase_group_count">({len(groups[y])})</span></summary>')
         out.extend(entry_html(e, section) for e in groups[y])
+        out.append("</details>")
     out.append("</div>")
     return "\n".join(out)
 
