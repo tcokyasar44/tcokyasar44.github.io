@@ -35,7 +35,7 @@
       var el = document.getElementById(b.getAttribute('data-copy'));
       if (!el || !navigator.clipboard) return;
       navigator.clipboard.writeText(el.innerText.trim()).then(function () {
-        var t = b.textContent; b.textContent = 'Copied'; setTimeout(function () { b.textContent = t; }, 1600);
+        var t = b.textContent; b.textContent = (document.documentElement.lang || '').slice(0, 2) === 'tr' ? 'Kopyalandı' : 'Copied'; setTimeout(function () { b.textContent = t; }, 1600);
       });
     });
   });

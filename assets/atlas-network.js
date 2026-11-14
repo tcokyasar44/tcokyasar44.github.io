@@ -7,13 +7,16 @@
      data-mode="showcase" the research banner with a legend that features one theme at a time
    Respects prefers-reduced-motion (draws one still frame) and pauses when off-screen. */
 (function () {
+  // Turkish labels when the page is <html lang="tr"> (tr/ pages); English otherwise
+  var _TR = (document.documentElement.lang || '').slice(0, 2) === 'tr' ? {"EV charging & electrification": "Elektrikli araç şarjı ve elektrifikasyon", "Where to build chargers and how fleets use them": "Şarj istasyonları nereye kurulmalı, filolar nasıl kullanmalı", "Transit & electric bus fleets": "Toplu taşıma ve elektrikli otobüs filoları", "Scheduling buses and charging together": "Otobüs ve şarj çizelgelemesi birlikte", "Freight & supply chains": "Yük taşımacılığı ve tedarik zincirleri", "Supplier choice, trucking markets, delivery": "Tedarikçi seçimi, kamyon taşımacılığı piyasaları, teslimat", "Drones & last-mile delivery": "Dronlar ve son kilometre teslimatı", "Battery-swap networks and drone-truck fleets": "Batarya değişim ağları ve dron-kamyon filoları", "Shared & autonomous mobility": "Paylaşımlı ve otonom mobilite", "Matching riders and vehicles at scale": "Yolcu ve araçları büyük ölçekte eşleştirme"} : {};
+  function _(s) { return _TR[s] || s; }
   var still = window.matchMedia ? matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
   var THEMES = [
-    { key: 'ev', name: 'EV charging & electrification', sub: 'Where to build chargers and how fleets use them' },
-    { key: 'bus', name: 'Transit & electric bus fleets', sub: 'Scheduling buses and charging together' },
-    { key: 'freight', name: 'Freight & supply chains', sub: 'Supplier choice, trucking markets, delivery' },
-    { key: 'drone', name: 'Drones & last-mile delivery', sub: 'Battery-swap networks and drone-truck fleets' },
-    { key: 'mob', name: 'Shared & autonomous mobility', sub: 'Matching riders and vehicles at scale' }
+    { key: 'ev', name: _('EV charging & electrification'), sub: _('Where to build chargers and how fleets use them') },
+    { key: 'bus', name: _('Transit & electric bus fleets'), sub: _('Scheduling buses and charging together') },
+    { key: 'freight', name: _('Freight & supply chains'), sub: _('Supplier choice, trucking markets, delivery') },
+    { key: 'drone', name: _('Drones & last-mile delivery'), sub: _('Battery-swap networks and drone-truck fleets') },
+    { key: 'mob', name: _('Shared & autonomous mobility'), sub: _('Matching riders and vehicles at scale') }
   ];
 
   function rnd(seed) { return function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }; }

@@ -644,3 +644,8 @@ a.card:hover .ico svg, .theme:hover .ico svg { animation: nudge .9s ease-in-out 
 .bib-section details.pub-year > summary::before { content: ""; display: inline-block; width: 7px; height: 7px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(-45deg); transition: transform .15s; margin-right: 4px; align-self: center; }
 .bib-section details.pub-year[open] > summary::before { transform: rotate(45deg); }
 .bib-section details.pub-year > summary:focus-visible { outline: 2px solid var(--maroon); outline-offset: 2px; }
+
+/* EN / TR language switch (header, next to the theme button) */
+.lang-btn { display: inline-flex; align-items: center; justify-content: center; min-width: 34px; height: 34px; padding: 0 8px; margin-right: 2px;
+  border: 1px solid var(--line); border-radius: 999px; font: 600 .74rem/1 var(--sans); letter-spacing: .06em; color: var(--muted); text-decoration: none; }
+.lang-btn:hover, .lang-btn:focus-visible { color: var(--maroon); border-color: var(--maroon); text-decoration: none; }

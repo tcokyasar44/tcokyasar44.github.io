@@ -41,7 +41,7 @@
       var all = s.querySelectorAll('.bibbase_paper').length;
       var vis = s.querySelectorAll('.bibbase_paper:not([hidden])').length;
       s.hidden = terms.length > 0 && vis === 0;
-      if (c) c.textContent = terms.length ? '(' + vis + ' of ' + all + ')' : '(' + all + ')';
+      if (c) c.textContent = terms.length ? '(' + vis + ((document.documentElement.lang || '').slice(0, 2) === 'tr' ? ' / ' : ' of ') + all + ')' : '(' + all + ')';
     });
     if (empty) empty.hidden = !(terms.length && shown === 0);
   }

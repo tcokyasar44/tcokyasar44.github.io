@@ -6,13 +6,16 @@
    optimized route. The camera sways slowly and follows the pointer a little.
    Canvas only, no libraries. Still frame for prefers-reduced-motion; pauses when off-screen. */
 (function () {
+  // Turkish labels when the page is <html lang="tr"> (tr/ pages); English otherwise
+  var _TR = (document.documentElement.lang || '').slice(0, 2) === 'tr' ? {"EV charging & electrification": "Elektrikli araç şarjı ve elektrifikasyon", "Where to build chargers and how fleets use them": "Şarj istasyonları nereye kurulmalı, filolar nasıl kullanmalı", "Transit & electric bus fleets": "Toplu taşıma ve elektrikli otobüs filoları", "Scheduling buses and charging together": "Otobüs ve şarj çizelgelemesi birlikte", "Freight & supply chains": "Yük taşımacılığı ve tedarik zincirleri", "Supplier choice, trucking markets, delivery": "Tedarikçi seçimi, kamyon taşımacılığı piyasaları, teslimat", "Drones & last-mile delivery": "Dronlar ve son kilometre teslimatı", "Battery-swap networks and drone-truck fleets": "Batarya değişim ağları ve dron-kamyon filoları", "Shared & autonomous mobility": "Paylaşımlı ve otonom mobilite", "Matching riders and vehicles at scale": "Yolcu ve araçları büyük ölçekte eşleştirme", "Supplier": "Tedarikçi", "Distribution center": "Dağıtım merkezi", "Customers": "Müşteriler", "Drone depot": "Dron deposu", "Charging hub": "Şarj merkezi", "Terminal charger": "Son durak şarj ünitesi", "Battery swap": "Batarya değişimi", "Rider waiting": "Bekleyen yolcu", "Zoom in": "Yakınlaştır", "Zoom out": "Uzaklaştır", "Rotate left": "Sola döndür", "Rotate right": "Sağa döndür", "Pause rotation": "Dönmeyi duraklat", "Resume rotation": "Dönmeyi sürdür", "Reset view": "Görünümü sıfırla", "Full screen": "Tam ekran", "Swipe sideways to turn the city · pinch to zoom": "Şehri döndürmek için yana kaydırın · yakınlaştırmak için iki parmakla sıkıştırın", "Drag to rotate 360° and tilt · click, then scroll to zoom · shift-drag to pan · double-click to reset": "360° döndürmek ve eğmek için sürükleyin · yakınlaştırmak için tıklayıp kaydırın · kaydırmak için Shift ile sürükleyin · sıfırlamak için çift tıklayın"} : {};
+  function _(s) { return _TR[s] || s; }
   var still = window.matchMedia ? matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
   var THEMES = [
-    { key: 'ev', name: 'EV charging & electrification', sub: 'Where to build chargers and how fleets use them' },
-    { key: 'bus', name: 'Transit & electric bus fleets', sub: 'Scheduling buses and charging together' },
-    { key: 'freight', name: 'Freight & supply chains', sub: 'Supplier choice, trucking markets, delivery' },
-    { key: 'drone', name: 'Drones & last-mile delivery', sub: 'Battery-swap networks and drone-truck fleets' },
-    { key: 'mob', name: 'Shared & autonomous mobility', sub: 'Matching riders and vehicles at scale' }
+    { key: 'ev', name: _('EV charging & electrification'), sub: _('Where to build chargers and how fleets use them') },
+    { key: 'bus', name: _('Transit & electric bus fleets'), sub: _('Scheduling buses and charging together') },
+    { key: 'freight', name: _('Freight & supply chains'), sub: _('Supplier choice, trucking markets, delivery') },
+    { key: 'drone', name: _('Drones & last-mile delivery'), sub: _('Battery-swap networks and drone-truck fleets') },
+    { key: 'mob', name: _('Shared & autonomous mobility'), sub: _('Matching riders and vehicles at scale') }
   ];
   function rnd(seed) { return function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }; }
   function cssRGB(name, fb) {
@@ -71,10 +74,10 @@
       for (r = 0; r < rows - 1; r++) for (c = 0; c < cols - 1; c++) {
         var key = c + ',' + r, b = { c: c, r: r, items: [] };
         if (parks[key]) { b.park = true; for (var k = 0; k < 7; k++) b.items.push({ tree: true, x: c + .22 + rand() * .56, y: r + .22 + rand() * .56, s: .07 + rand() * .05 }); blocks.push(b); continue; }
-        if (c === supplier[0] && r === supplier[1]) { b.items.push(box(c + .18, r + .2, c + .82, r + .8, .3, 'freight', 'Supplier')); blocks.push(b); continue; }
-        if (c === dc[0] && r === dc[1]) { b.items.push(box(c + .14, r + .18, c + .86, r + .82, .34, 'freight', 'Distribution center')); blocks.push(b); continue; }
-        if (c === customer[0] && r === customer[1]) { b.items.push(box(c + .2, r + .2, c + .8, r + .8, .5, 'freight', 'Customers')); blocks.push(b); continue; }
-        if (c === 0 && r === rows - 2) { b.items.push(box(c + .2, r + .25, c + .8, r + .8, .16, 'drone', 'Drone depot')); blocks.push(b); continue; }
+        if (c === supplier[0] && r === supplier[1]) { b.items.push(box(c + .18, r + .2, c + .82, r + .8, .3, 'freight', _('Supplier'))); blocks.push(b); continue; }
+        if (c === dc[0] && r === dc[1]) { b.items.push(box(c + .14, r + .18, c + .86, r + .82, .34, 'freight', _('Distribution center'))); blocks.push(b); continue; }
+        if (c === customer[0] && r === customer[1]) { b.items.push(box(c + .2, r + .2, c + .8, r + .8, .5, 'freight', _('Customers'))); blocks.push(b); continue; }
+        if (c === 0 && r === rows - 2) { b.items.push(box(c + .2, r + .25, c + .8, r + .8, .16, 'drone', _('Drone depot'))); blocks.push(b); continue; }
         var d2 = Math.pow(c + .5 - dtx, 2) + Math.pow((r + .5 - dty) * 1.4, 2), tall = Math.exp(-d2 / (small ? 4 : 7));
         var split = rand() < .55 ? 2 : 1, m = .19, g = .08, w = (1 - 2 * m - (split - 1) * g) / split;
         for (var i = 0; i < split; i++) for (var j = 0; j < split; j++) {
@@ -302,11 +305,11 @@
     }
     function labels() {
       var k = THEMES[feat].key;
-      if (k === 'freight') { tagAt(supplier[0] + .5, supplier[1] + .5, .6, 'Supplier', C.freight); tagAt(dc[0] + .5, dc[1] + .5, .65, 'Distribution center', C.freight); tagAt(customer[0] + .5, customer[1] + .5, .85, 'Customers', C.freight); }
-      if (k === 'ev') { var h = nodes[hubs[0]]; tagAt(h.x + .2, h.y - .2, .95, 'Charging hub', C.ev); }
-      if (k === 'bus') { var b = nodes[busLoop[0]]; tagAt(b.x + .2, b.y - .2, .95, 'Terminal charger', C.bus); }
-      if (k === 'drone') { tagAt(.5, rows - 1.5, .5, 'Drone depot', C.drone); var s = nodes[swaps[0]]; tagAt(s.x + .2, s.y - .2, 1.05, 'Battery swap', C.drone); }
-      if (k === 'mob' && riders.length) { var r = nodes[riders[0]]; tagAt(r.x + .14, r.y + .14, .45, 'Rider waiting', C.mob); }
+      if (k === 'freight') { tagAt(supplier[0] + .5, supplier[1] + .5, .6, _('Supplier'), C.freight); tagAt(dc[0] + .5, dc[1] + .5, .65, _('Distribution center'), C.freight); tagAt(customer[0] + .5, customer[1] + .5, .85, _('Customers'), C.freight); }
+      if (k === 'ev') { var h = nodes[hubs[0]]; tagAt(h.x + .2, h.y - .2, .95, _('Charging hub'), C.ev); }
+      if (k === 'bus') { var b = nodes[busLoop[0]]; tagAt(b.x + .2, b.y - .2, .95, _('Terminal charger'), C.bus); }
+      if (k === 'drone') { tagAt(.5, rows - 1.5, .5, _('Drone depot'), C.drone); var s = nodes[swaps[0]]; tagAt(s.x + .2, s.y - .2, 1.05, _('Battery swap'), C.drone); }
+      if (k === 'mob' && riders.length) { var r = nodes[riders[0]]; tagAt(r.x + .14, r.y + .14, .45, _('Rider waiting'), C.mob); }
     }
     function themeLabel() {
       var th = THEMES[feat], px = small ? 11 : 13, x = 12, y = 12;
@@ -381,18 +384,18 @@
     function btn(name, label, fn) { var b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-label', label); b.title = label;
       b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICON[name] + '</svg>';
       b.addEventListener('click', function (e) { e.stopPropagation(); fn(b); }); bar.appendChild(b); return b; }
-    btn('plus', 'Zoom in', function () { zoomAt(W / 2, H / 2, 1.3); });
-    btn('minus', 'Zoom out', function () { zoomAt(W / 2, H / 2, 1 / 1.3); });
-    btn('left', 'Rotate left', function () { orbit(-Math.PI / 4); });
-    btn('right', 'Rotate right', function () { orbit(Math.PI / 4); });
-    var spinBtn = btn(still.matches ? 'play' : 'pause', 'Pause rotation', function (b) { spin = !spin; b.innerHTML = b.innerHTML.replace(spin ? ICON.play : ICON.pause, spin ? ICON.pause : ICON.play); b.setAttribute('aria-label', spin ? 'Pause rotation' : 'Resume rotation'); b.title = b.getAttribute('aria-label'); lastInteract = -99; });
-    btn('reset', 'Reset view', reset);
-    if (fig.requestFullscreen) btn('full', 'Full screen', function () {
+    btn('plus', _('Zoom in'), function () { zoomAt(W / 2, H / 2, 1.3); });
+    btn('minus', _('Zoom out'), function () { zoomAt(W / 2, H / 2, 1 / 1.3); });
+    btn('left', _('Rotate left'), function () { orbit(-Math.PI / 4); });
+    btn('right', _('Rotate right'), function () { orbit(Math.PI / 4); });
+    var spinBtn = btn(still.matches ? 'play' : 'pause', _('Pause rotation'), function (b) { spin = !spin; b.innerHTML = b.innerHTML.replace(spin ? ICON.play : ICON.pause, spin ? ICON.pause : ICON.play); b.setAttribute('aria-label', spin ? _('Pause rotation') : _('Resume rotation')); b.title = b.getAttribute('aria-label'); lastInteract = -99; });
+    btn('reset', _('Reset view'), reset);
+    if (fig.requestFullscreen) btn('full', _('Full screen'), function () {
       if (document.fullscreenElement) document.exitFullscreen(); else fig.requestFullscreen().catch(function () {});
     });
     fig.appendChild(bar);
     var tip = document.createElement('p'); tip.className = 'city-hint';
-    tip.textContent = matchMedia('(pointer: coarse)').matches ? 'Swipe sideways to turn the city · pinch to zoom' : 'Drag to rotate 360° and tilt · click, then scroll to zoom · shift-drag to pan · double-click to reset';
+    tip.textContent = matchMedia('(pointer: coarse)').matches ? _('Swipe sideways to turn the city · pinch to zoom') : _('Drag to rotate 360° and tilt · click, then scroll to zoom · shift-drag to pan · double-click to reset');
     fig.appendChild(tip);
     var hintT; function hint(flash) { tip.classList.add('flash'); clearTimeout(hintT); hintT = setTimeout(function () { tip.classList.remove('flash'); }, 1600); }
     document.addEventListener('fullscreenchange', function () { setTimeout(function () { if (layout()) draw(); }, 60); });
