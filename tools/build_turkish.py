@@ -8,6 +8,8 @@ How it works
         English key   "Read the {0}paper{/0} here."      {0} = the first inline tag, {/0} = its end tag,
         Turkish value "{0}Makaleyi{/0} buradan okuyun."   {1/} = an icon/<br>/<img> kept as is.
     Attributes title, aria-label, alt, placeholder and the meta description/og tags are translated too.
+    "__replace__": [[find, replace], ...] in the same file makes raw edits on the Turkish pages only
+    (used for the Ç/Ş cedillas on the home-page wordmark and the logo's hidden title).
   * Publication lists (between <!-- PUBS:x --> markers), <script>, <style>, <svg>, <pre>, <code> and
     anything marked translate="no" stay as they are (papers stay in English).
   * Links are rewritten for the tr/ folder, <html lang="tr">, canonical/og:url point to /tr/,
@@ -343,8 +345,9 @@ def relink(doc, pages):
 def build(site):
     site = Path(site)
     tools = site / "tools"
-    strings = json.loads((tools / "tr_strings.json").read_text(encoding="utf-8"))
-    strings = {k: v for k, v in strings.items() if not k.startswith("__")}
+    raw_strings = json.loads((tools / "tr_strings.json").read_text(encoding="utf-8"))
+    replaces = raw_strings.get("__replace__", [])          # raw [find, replace] edits for the Turkish pages only
+    strings = {k: v for k, v in raw_strings.items() if not k.startswith("__")}
     tr = Translator(strings)
     out_dir = site / "tr"
     out_dir.mkdir(exist_ok=True)
@@ -368,6 +371,8 @@ def build(site):
         doc = re.sub(r'(<link rel="alternate" hreflang="(?:en|x-default)" href=")%s/tr/' % re.escape(SITE),
                      r"\1%s/" % SITE, doc)
         doc = add_chrome(doc, name, tr=True)
+        for find, rep in replaces:
+            doc = doc.replace(find, rep)
         if 'property="og:locale"' not in doc:
             doc = doc.replace('<meta property="og:type"', '<meta property="og:locale" content="tr_TR">\n  <meta property="og:type"', 1)
         (out_dir / name).write_bytes(doc.encode("utf-8"))
@@ -399,4 +404,8 @@ def build(site):
 
 
 if __name__ == "__main__":
+    try:
+        sys.stdout.reconfigure(errors="replace")      # Windows console: never crash on Turkish letters
+    except (AttributeError, ValueError):
+        pass
     sys.exit(build(sys.argv[1] if len(sys.argv) > 1 else Path(__file__).resolve().parent.parent))

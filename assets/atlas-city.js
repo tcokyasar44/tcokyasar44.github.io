@@ -418,6 +418,16 @@
     new MutationObserver(function () { colors(); draw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     if (still.addEventListener) still.addEventListener('change', function () { still.matches ? stop() : start(); });
   }
-  function init() { document.querySelectorAll('canvas.atlas-city').forEach(function (c) { try { City(c); } catch (e) { if (window.console) console.error(e); } }); }
+  // Start only once the canvas has a size: a page opened in a hidden tab/panel or an embedded preview can lay
+  // out at 0x0 first, which used to leave the animation blank and frozen.
+  function whenSized(c, fn) {
+    var ok = function () { var r = c.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
+    if (ok()) { fn(c); return; }
+    var go = function () { if (!ok()) return; if (ro) ro.disconnect(); window.removeEventListener('resize', go); document.removeEventListener('visibilitychange', go); fn(c); };
+    var ro = 'ResizeObserver' in window ? new ResizeObserver(go) : null;
+    if (ro) ro.observe(c);
+    window.addEventListener('resize', go); document.addEventListener('visibilitychange', go);
+  }
+  function init() { document.querySelectorAll('canvas.atlas-city').forEach(function (c) { whenSized(c, function (cv) { try { City(cv); } catch (e) { if (window.console) console.error(e); } }); }); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
